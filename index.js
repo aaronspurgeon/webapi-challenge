@@ -12,3 +12,27 @@ I need this code, just don't know where, perhaps should make some middleware, do
 
 Go code!
 */
+const express = require("express");
+const server = express();
+
+server.use(express.json());
+
+server.use((req, res) => {
+  res.status(404).json({
+    message: "Route was not found"
+  });
+});
+
+server.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({
+    message: "An internal error occurred, please try again later."
+  });
+});
+
+const host = process.env.HOST || "0.0.0.0";
+const port = process.env.PORT || 8080;
+
+server.listen(port, host, () => {
+  console.log("app running");
+});

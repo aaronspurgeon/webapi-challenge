@@ -40,4 +40,32 @@ router.post("/", (req, res, next) => {
     });
 });
 
+router.put("/:id", (req, res, next) => {
+  if (!req.body) {
+    return res.status(400).json({
+      message: "Missing input fields"
+    });
+  }
+
+  const update = {
+    name: req.body.name,
+    description: req.body.description,
+    completed: false
+  };
+
+  db.update(req.params.id, update)
+    .then(data => {
+      if (data) {
+        res.status(200).json(data);
+      } else {
+        res.status(404).json({
+          message: "The post could not be found"
+        });
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 module.exports = router;

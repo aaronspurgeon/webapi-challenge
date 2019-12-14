@@ -4,8 +4,8 @@ const router = express.Router({
   mergeParams: true
 });
 
-router.get("/", (req, res, next) => {
-  db.get()
+router.get("/:actionId", (req, res, next) => {
+  db.get(req.params.actionId)
     .then(data => {
       res.status(200).json(data);
     })

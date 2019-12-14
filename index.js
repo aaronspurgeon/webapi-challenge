@@ -14,8 +14,11 @@ Go code!
 */
 const express = require("express");
 const server = express();
+const projectRouter = require("./projects/projectRouter");
 
 server.use(express.json());
+
+server.use("/api/projects", projectRouter);
 
 server.use((req, res) => {
   res.status(404).json({

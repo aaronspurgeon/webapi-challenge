@@ -4,7 +4,6 @@ const router = express.Router({
   mergeParams: true
 });
 
-// insert
 // update
 // remove
 
@@ -33,6 +32,29 @@ router.post("/", (req, res, next) => {
   };
 
   db.insert(newAction)
+    .then(data => {
+      res.status(200).json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.put("/:actionId", (req, res, next) => {
+  if (!req.body) {
+    return res.status(400).json({
+      message: "Empty input fields."
+    });
+  }
+
+  const update = {
+    project_id: req.params.id,
+    description: req.body.description,
+    notes: req.body.notes,
+    completed: false
+  };
+
+  db.update(req.params.actionId, update)
     .then(data => {
       res.status(200).json(data);
     })

@@ -1,12 +1,9 @@
 const express = require("express");
 const db = require("../data/helpers/projectModel");
 const router = express.Router();
+const actionRouter = require("../actions/actionRouter");
 
-// get,
-//   insert,
-//   update,
-//   remove,
-//   getProjectActions,
+router.use("/:id/actions", actionRouter);
 
 router.get("/", (req, res, next) => {
   db.get()
@@ -73,13 +70,23 @@ router.delete("/:id", (req, res, next) => {
     .then(count => {
       if (count) {
         res.status(200).json({
-          message: "The post has been deleted"
+          message: "The project has been deleted"
         });
       } else {
         res.status(404).json({
           message: "Project does not exist."
         });
       }
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.get("/:id", (req, res, next) => {
+  db.getProjectActions(req.params.id)
+    .then(data => {
+      res.status(200).json(data);
     })
     .catch(err => {
       next(err);

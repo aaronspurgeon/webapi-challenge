@@ -4,7 +4,6 @@ const router = express.Router({
   mergeParams: true
 });
 
-// update
 // remove
 
 router.get("/:actionId", (req, res, next) => {
@@ -57,6 +56,24 @@ router.put("/:actionId", (req, res, next) => {
   db.update(req.params.actionId, update)
     .then(data => {
       res.status(200).json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.delete("/:actionId", (req, res, next) => {
+  db.remove(req.params.actionId)
+    .then(count => {
+      if (count) {
+        res.status(200).json({
+          message: "The action has been deleted"
+        });
+      } else {
+        res.status(404).json({
+          message: "Action does not exist."
+        });
+      }
     })
     .catch(err => {
       next(err);

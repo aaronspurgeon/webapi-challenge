@@ -4,8 +4,6 @@ const router = express.Router({
   mergeParams: true
 });
 
-// remove
-
 router.get("/:actionId", (req, res, next) => {
   db.get(req.params.actionId)
     .then(data => {
